@@ -1,0 +1,24 @@
+version: "2"
+services:
+  web:
+    image: jacksonveroneze/php7.0-fpm-nginx
+    ports:
+      - "4443:443"
+    volumes:
+      - /home/jackson/www/g-mus-dev:/home/www/
+    links:
+    - db
+    - cache
+  db:
+    image: jacksonveroneze/postgres9.4-ssl
+    ports:
+      - "5432:5432"
+    volumes:
+      - /home/jackson/.datastorage/postgres/gemus/:/var/lib/postgresql/data
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: inoino
+  cache:
+    image: memcached
+    ports:
+      - "11211:11211"
