@@ -6,6 +6,7 @@ services:
       - "4444:443"
     volumes:
       - /home/jackson/www/g-mas-dev:/home/www/
+      - /home/jackson/.ssh/:/home/www/.ssh
     links:
     - db
     - cache

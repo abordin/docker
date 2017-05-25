@@ -1,3 +1,6 @@
+
+
+
 FROM debian:stretch
 
 MAINTAINER Jackson Veroneze <jackson@jacksonveroneze.com>
@@ -5,7 +8,6 @@ MAINTAINER Jackson Veroneze <jackson@jacksonveroneze.com>
 ENV DEBIAN_FRONTEND noninteractive
 ENV LC_ALL en_US.UTF-8
 ENV LANGUAGE en_US:en
-
 
 RUN export TERM=xterm \
     && export XDEBUG_CONFIG="idekey=dbgp" \
@@ -18,7 +20,10 @@ RUN export TERM=xterm \
     locales \
     apt-utils \
     ca-certificates \
+    openssh-client \
     curl \
+    nano \
+    git \
     nginx \
     supervisor \
     php7.0-dev \
@@ -30,9 +35,11 @@ RUN export TERM=xterm \
     php7.0-fpm \
     php-pear \
     php7.0-gd \
+    php7.0-zip \
     php7.0-pgsql \
     php7.0-mysql \
     php7.0-mcrypt \
+    php7.0-mbstring \
     php7.0-memcached \
     php7.0-memcache \
     php7.0-xdebug \
@@ -66,7 +73,7 @@ RUN sed -i "s/;date.timezone =/date.timezone = America\/Sao_Paulo/" /etc/php/7.0
     && sed -i "s/;listen.allowed_clients = 127.0.0.1/listen.allowed_clients = 0.0.0.0/" /etc/php/7.0/fpm/pool.d/www.conf \
     && sed -i "s/listen = \/run\/php\/php7\.0\-fpm\.sock/listen = \/var\/run\/php\/php7.0-fpm.sock/" /etc/php/7.0/fpm/pool.d/www.conf
 
-RUN adduser --disabled-password --gecos '' www \
+RUN adduser www \
     && rm /etc/nginx/sites-available/default && rm /etc/nginx/sites-enabled/default \
     && mkdir /etc/nginx/ssl/ \
     && mkdir -p /var/run/php \
@@ -85,6 +92,8 @@ RUN ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 ADD start.sh /
+
+WORKDIR /home/www
 
 EXPOSE 80 443
 
