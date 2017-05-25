@@ -8,7 +8,7 @@ services:
       - /home/jackson/www/e-school:/home/www/workdir
       - /home/jackson/.ssh/:/home/www/.ssh
       - /home/jackson/.composer/:/home/www/.composer
-      - /tmp/eschool/:/tmp
+    working_dir: /home/www/workdir
     links:
     - db
     - cache
