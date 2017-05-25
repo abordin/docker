@@ -93,7 +93,7 @@ ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 ADD start.sh /
 
-WORKDIR /home/www
+WORKDIR /home/www/workdir
 
 EXPOSE 80 443
 

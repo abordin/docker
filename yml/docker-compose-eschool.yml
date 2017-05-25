@@ -5,7 +5,10 @@ services:
     ports:
       - "4445:443"
     volumes:
-      - /home/jackson/www/e-school:/home/www/
+      - /home/jackson/www/e-school:/home/www/workdir
+      - /home/jackson/.ssh/:/home/www/.ssh
+      - /home/jackson/.composer/:/home/www/.composer
+      - /tmp/eschool/:/tmp
     links:
     - db
     - cache

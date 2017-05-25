@@ -2,7 +2,7 @@ server {
    listen 80;
    listen 443 ssl;
 
-   root /home/www/public/;
+   root /home/www/workdir/public/;
    index index.php index.html index.htm;
 
    server_name localhost;

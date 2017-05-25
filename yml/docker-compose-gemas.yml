@@ -5,8 +5,10 @@ services:
     ports:
       - "4444:443"
     volumes:
-      - /home/jackson/www/g-mas-dev:/home/www/
+      - /home/jackson/www/g-mas-dev:/home/www/workdir
       - /home/jackson/.ssh/:/home/www/.ssh
+      - /home/jackson/.composer/:/home/www/.composer
+      - /tmp/gemas/:/tmp
     links:
     - db
     - cache
