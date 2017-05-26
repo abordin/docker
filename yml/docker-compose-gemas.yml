@@ -30,7 +30,7 @@ services:
   mordomo:
     image: openjdk:7-jre
     ports:
-    - "7001:7001"
+    - "7002:7001"
     volumes: 
         - /home/jackson/www/g-mas-dev:/home/www/workdir:rw
         - /home/jackson/.tmp/:/home/www/.tmp:rw
