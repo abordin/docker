@@ -25,3 +25,12 @@ services:
     image: memcached
     ports:
       - "11211:11211"
+  mordomo:
+    image: openjdk:7-jre
+    ports:
+    - "7001:7001"
+    volumes: 
+        - /home/jackson/www/g-mus-dev:/home/www/workdir:rw
+        - /home/jackson/.tmp/:/home/www/.tmp:rw
+    working_dir: /home/www/workdir/library/vendor/inovadora/mordomo
+    command: java -jar Mordomo.jar
