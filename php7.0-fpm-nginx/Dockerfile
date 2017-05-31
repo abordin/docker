@@ -1,6 +1,3 @@
-
-
-
 FROM debian:stretch
 
 MAINTAINER Jackson Veroneze <jackson@jacksonveroneze.com>
@@ -79,19 +76,22 @@ RUN adduser www \
     && mkdir -p /var/run/php \
     && rm /etc/php/7.0/mods-available/xdebug.ini
 
-ADD default /etc/nginx/sites-available/
+ADD shared/default /etc/nginx/sites-available/
 
-ADD certificate.crt /etc/nginx/ssl/
+ADD shared/certificate.crt /etc/nginx/ssl/
 
-ADD certificate.key /etc/nginx/ssl/
+ADD shared/certificate.key /etc/nginx/ssl/
 
-ADD xdebug.ini /etc/php/7.0/mods-available
+ADD shared/xdebug.ini /etc/php/7.0/mods-available
 
 RUN ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
-ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+ADD shared/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-ADD start.sh /
+ADD shared/start.sh /
+
+RUN sed -i "s/___PHP_VERSION___/7.0/" /etc/supervisor/conf.d/supervisord.conf \
+    && sed -i "s/___PHP_VERSION___/7.0/" /etc/nginx/sites-available/default
 
 WORKDIR /home/www/workdir
 
