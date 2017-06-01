@@ -1,7 +1,7 @@
 version: "2"
 services:
   web:
-    image: jacksonveroneze/php7.0-fpm-nginx
+    image: jacksonveroneze/php7.1-fpm-nginx
     ports:
       - "4445:443"
     volumes:
