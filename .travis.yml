@@ -6,12 +6,7 @@ services:
   - docker
 
 script:
-  - cd php7.0-fpm-nginx
-  - ./docker-build.sh
-  - cd ../php7.1-fpm-nginx
-  - ./docker-build.sh
-  - cd ../postgres9.4-ssl
-  - ./docker-build.sh
+  - ./build.sh
 
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
