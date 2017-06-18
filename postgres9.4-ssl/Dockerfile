@@ -6,7 +6,7 @@ COPY ./ssl.conf /etc/postgresql-common/ssl.conf
 
 RUN mkdir -p /var/ssl
 
-COPY certificate.crt certificate.key /var/ssl/
+COPY shared/certificate.crt shared/certificate.key /var/ssl/
 
 RUN chown postgres:postgres \
     /var/ssl/certificate.crt \

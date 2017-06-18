@@ -20,7 +20,7 @@ services:
       - /home/jackson/.datastorage/postgres/gemus/:/var/lib/postgresql/data
     restart: always
     environment:
-      POSTGRES_PASSWORD: inoino
+      POSTGRES_PASSWORD: 0ac03851e944231e8b05e553dc6637f8
   cache:
     image: memcached
     ports:

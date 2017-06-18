@@ -20,8 +20,18 @@ services:
       - /home/jackson/.datastorage/mysql/:/var/lib/mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: l@08ESCOL@
+      MYSQL_ROOT_PASSWORD: 0ac03851e944231e8b05e553dc6637f8
   cache:
     image: memcached
     ports:
       - "11215:11211"
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: 0ac03851e944231e8b05e553dc6637f8
+    links:
+    - db

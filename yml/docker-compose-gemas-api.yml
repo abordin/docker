@@ -21,8 +21,16 @@ services:
       - /home/jackson/.datastorage/postgres/gemas/:/var/lib/postgresql/data
     restart: always
     environment:
-      POSTGRES_PASSWORD: inoino
+      POSTGRES_PASSWORD: 0ac03851e944231e8b05e553dc6637f8
   cache:
     image: memcached
     ports:
       - "11216:11211"
+  pgadmin:
+    image: chorss/docker-pgadmin4
+    ports:
+      - "5050:5050"
+    volumes:
+      - /home/jackson/.tmp/pgadmin:/data/
+    links:
+    - db

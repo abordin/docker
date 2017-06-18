@@ -1,7 +1,9 @@
 #!/bin/bash
 
-cp ./../certs/* .
+mkdir shared
+
+cp ./../shared/* shared
 
 docker build -t jacksonveroneze/postgres9.4-ssl .
 
-rm certificate.*
+rm -rf shared
