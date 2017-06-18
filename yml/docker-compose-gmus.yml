@@ -1,0 +1,36 @@
+version: "2"
+services:
+  web:
+    image: jacksonveroneze/php7.0-fpm-nginx
+    ports:
+      - "4443:443"
+    volumes:
+      - /home/jackson/www/g-mus-dev:/home/www/workdir
+      - /home/jackson/.ssh/:/home/www/.ssh
+      - /home/jackson/.composer/:/home/www/.composer
+    working_dir: /home/www/workdir
+    links:
+    - db
+    - cache
+  db:
+    image: jacksonveroneze/postgres9.4-ssl
+    ports:
+      - "5432:5432"
+    volumes:
+      - /home/jackson/.datastorage/postgres/gemus/:/var/lib/postgresql/data
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: 0ac03851e944231e8b05e553dc6637f8
+  cache:
+    image: memcached
+    ports:
+      - "11211:11211"
+  mordomo:
+    image: openjdk:7-jre
+    ports:
+    - "7001:7001"
+    volumes: 
+        - /home/jackson/www/g-mus-dev:/home/www/workdir:rw
+        - /home/jackson/.tmp/:/home/www/.tmp:rw
+    working_dir: /home/www/workdir/library/vendor/inovadora/mordomo
+    command: java -jar Mordomo.jar
