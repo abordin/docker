@@ -3,7 +3,7 @@ services:
   web:
     image: jacksonveroneze/php7.1-fpm-nginx
     ports:
-      - "4445:443"
+      - "4443:443"
     volumes:
       - /home/jackson/www/e-school:/home/www/workdir
       - /home/jackson/.ssh/:/home/www/.ssh
@@ -24,7 +24,7 @@ services:
   cache:
     image: memcached
     ports:
-      - "11215:11211"
+      - "11211:11211"
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     ports:

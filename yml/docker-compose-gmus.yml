@@ -17,7 +17,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - /home/jackson/.datastorage/postgres/gemus/:/var/lib/postgresql/data
+      - /home/jackson/.datastorage/postgres/gmus/:/var/lib/postgresql/data
     restart: always
     environment:
       POSTGRES_PASSWORD: 0ac03851e944231e8b05e553dc6637f8
@@ -34,3 +34,11 @@ services:
         - /home/jackson/.tmp/:/home/www/.tmp:rw
     working_dir: /home/www/workdir/library/vendor/inovadora/mordomo
     command: java -jar Mordomo.jar
+  pgadmin:
+    image: chorss/docker-pgadmin4
+    ports:
+      - "5050:5050"
+    volumes:
+      - /home/jackson/.tmp/pgadmin:/data/
+    links:
+    - db

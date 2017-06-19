@@ -3,7 +3,7 @@ services:
   web:
     image: jacksonveroneze/php7.0-fpm-nginx
     ports:
-      - "4446:443"
+      - "4443:443"
     volumes:
       - /home/jackson/www/g-mas-api-dev:/home/www/workdir
       - /home/jackson/.ssh/:/home/www/.ssh
@@ -16,16 +16,16 @@ services:
   db:
     image: jacksonveroneze/postgres9.4-ssl
     ports:
-      - "5433:5432"
+      - "5432:5432"
     volumes:
-      - /home/jackson/.datastorage/postgres/gemas/:/var/lib/postgresql/data
+      - /home/jackson/.datastorage/postgres/gmas/:/var/lib/postgresql/data
     restart: always
     environment:
       POSTGRES_PASSWORD: 0ac03851e944231e8b05e553dc6637f8
   cache:
     image: memcached
     ports:
-      - "11216:11211"
+      - "11211:11211"
   pgadmin:
     image: chorss/docker-pgadmin4
     ports:
