@@ -6,8 +6,8 @@ services:
       - "4443:443"
     volumes:
       - /home/jackson/www/e-school:/home/www/workdir
-      - /home/jackson/.ssh/:/home/www/.ssh
-      - /home/jackson/.composer/:/home/www/.composer
+      - $DIR_SSH:/home/www/.ssh
+      - $DIR_COMPOSER:/home/www/.composer
     working_dir: /home/www/workdir
     links:
     - db
@@ -17,10 +17,10 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - /home/jackson/.datastorage/mysql/:/var/lib/mysql
+      - $DIR_DATA_STORAGE_E_SCHOOL:/var/lib/mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: 0ac03851e944231e8b05e553dc6637f8
+      MYSQL_ROOT_PASSWORD: $PASSWORD_STORAGE
   cache:
     image: memcached
     ports:
