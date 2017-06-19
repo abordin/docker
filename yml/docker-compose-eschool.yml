@@ -8,6 +8,7 @@ services:
       - /home/jackson/www/e-school:/home/www/workdir
       - $DIR_SSH:/home/www/.ssh
       - $DIR_COMPOSER:/home/www/.composer
+      - $DIR_TMP_E_SCHOOL:/home/www/.tmp
     working_dir: /home/www/workdir
     links:
     - db
@@ -32,6 +33,6 @@ services:
     environment:
       PMA_HOST: db
       PMA_USER: root
-      PMA_PASSWORD: 0ac03851e944231e8b05e553dc6637f8
+      PMA_PASSWORD: $PASSWORD_STORAGE
     links:
     - db

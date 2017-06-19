@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export DIR_SSH=$HOME/.ssh2/
+export DIR_SSH=$HOME/.ssh/
 export DIR_COMPOSER=$HOME/.composer/
 export DIR_DATA_STORAGE_E_SCHOOL=$HOME/.datastorage/mysql/e_school
 export DIR_DATA_STORAGE_GMAS=$HOME/.datastorage/postgres/gmas

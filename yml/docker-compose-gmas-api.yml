@@ -5,10 +5,10 @@ services:
     ports:
       - "4443:443"
     volumes:
-      - /home/jackson/www/slim:/home/www/workdir
-      - /home/jackson/.ssh/:/home/www/.ssh
-      - /home/jackson/.composer/:/home/www/.composer
-      - /home/jackson/.tmp/:/home/www/.tmp
+      - /home/jackson/www/g-mas-dev-api:/home/www/workdir
+      - $DIR_SSH:/home/www/.ssh
+      - $DIR_COMPOSER:/home/www/.composer
+      - $DIR_TMP_GMAS:/home/www/.tmp
     working_dir: /home/www/workdir
     links:
     - db
@@ -18,10 +18,10 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - /home/jackson/.datastorage/postgres/gmas/:/var/lib/postgresql/data
+      - $DIR_DATA_STORAGE_GMAS:/var/lib/postgresql/data
     restart: always
     environment:
-      POSTGRES_PASSWORD: 0ac03851e944231e8b05e553dc6637f8
+      POSTGRES_PASSWORD: $PASSWORD_STORAGE
   cache:
     image: memcached
     ports:
@@ -31,6 +31,6 @@ services:
     ports:
       - "5050:5050"
     volumes:
-      - /home/jackson/.tmp/pgadmin:/data/
+      - $DIR_PGADMIN_DATA:/data/
     links:
     - db
