@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source variables-ambient.sh
+
 mkdir shared
 
 cp ./../shared/* shared
