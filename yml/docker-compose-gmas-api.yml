@@ -5,7 +5,7 @@ services:
     ports:
       - "4443:443"
     volumes:
-      - /home/jackson/www/g-mas-dev-api:/home/www/workdir
+      - /home/jackson/www/g-mas-api-dev:/home/www/workdir
       - $DIR_SSH:/home/www/.ssh
       - $DIR_COMPOSER:/home/www/.composer
       - $DIR_TMP_GMAS:/home/www/.tmp
