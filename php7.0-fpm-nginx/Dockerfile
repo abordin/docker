@@ -5,6 +5,7 @@ MAINTAINER Jackson Veroneze <jackson@jacksonveroneze.com>
 ENV DEBIAN_FRONTEND noninteractive
 ENV LC_ALL en_US.UTF-8
 ENV LANGUAGE en_US:en
+ENV TZ America/Sao_Paulo
 
 RUN export TERM=xterm \
     && export XDEBUG_CONFIG="idekey=dbgp" \
@@ -21,6 +22,10 @@ RUN export TERM=xterm \
     curl \
     nano \
     git \
+    wget \
+    unzip \
+	ntp \
+    ssh \
     nginx \
     supervisor \
     php7.0-dev \
@@ -42,13 +47,19 @@ RUN export TERM=xterm \
     php7.0-xdebug \
     php7.0-ldap \
     php7.0-imagick \
+    php7.0-bcmath \
+    php7.0-interbase \
     && apt-get autoremove -y \
     && apt-get clean \
     && apt-get autoclean \
     && rm -rf /var/lib/apt/lists/* \
-    && echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen \
+    && echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen \
     && locale-gen en_US.UTF-8 \
-    && /usr/sbin/update-locale LANG=en_US.UTF-8
+    && /usr/sbin/update-locale LANG=en_US.UTF-8 \
+    && touch /etc/ntp.drift \
+    && export TZ=America/Sao_Paulo \
+	&& ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime \
+	&& dpkg-reconfigure -f noninteractive tzdata
 
 RUN sed -i "s/;date.timezone =/date.timezone = America\/Sao_Paulo/" /etc/php/7.0/cli/php.ini \
     && sed -i "s/;date.timezone =/date.timezone = America\/Sao_Paulo/" /etc/php/7.0/fpm/php.ini \
@@ -70,24 +81,24 @@ RUN sed -i "s/;date.timezone =/date.timezone = America\/Sao_Paulo/" /etc/php/7.0
     && sed -i "s/;listen.allowed_clients = 127.0.0.1/listen.allowed_clients = 0.0.0.0/" /etc/php/7.0/fpm/pool.d/www.conf \
     && sed -i "s/listen = \/run\/php\/php7\.0\-fpm\.sock/listen = \/var\/run\/php\/php7.0-fpm.sock/" /etc/php/7.0/fpm/pool.d/www.conf
 
-RUN adduser www \
+RUN adduser --disabled-password --gecos '' www \
+    && usermod -aG sudo www \
+    && usermod -aG www-data www \
     && rm /etc/nginx/sites-available/default && rm /etc/nginx/sites-enabled/default \
     && mkdir /etc/nginx/ssl/ \
     && mkdir -p /var/run/php \
     && rm /etc/php/7.0/mods-available/xdebug.ini
 
 ADD shared/default /etc/nginx/sites-available/
-
 ADD shared/certificate.crt /etc/nginx/ssl/
-
 ADD shared/certificate.key /etc/nginx/ssl/
-
 ADD shared/xdebug.ini /etc/php/7.0/mods-available
-
 RUN ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
-
 ADD shared/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
+ADD shared/ntp.conf /etc/ntp.conf
+ADD shared/sg.ini /etc/php/7.0/mods-available/sg.ini
+ADD shared/ixed.7.0.lin /usr/lib/php/20151012/ixed.7.0.lin
+RUN phpenmod sg
 ADD shared/start.sh /
 
 RUN sed -i "s/___PHP_VERSION___/7.0/" /etc/supervisor/conf.d/supervisord.conf \
