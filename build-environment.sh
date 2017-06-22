@@ -1,6 +1,6 @@
 #!/bin/bash		
 		
-source ./environment-variables.sh
+source environment-variables.sh
 
 mkdir -p $DIR_SSH
 mkdir -p $DIR_COMPOSER
