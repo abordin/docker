@@ -1,6 +1,6 @@
 version: "2"
 services:
-  proxyserver:
+  server:
     image: jacksonveroneze/dotnet-core-sdk
     ports:
       - "5000:5000"
