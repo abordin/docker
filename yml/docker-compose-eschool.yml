@@ -9,6 +9,7 @@ services:
       - $DIR_SSH:/home/www/.ssh
       - $DIR_COMPOSER:/home/www/.composer
       - $DIR_TMP:/home/www/.tmp
+      - $DIR_TMP:/var/log/nginx
     working_dir: /home/www/workdir
     links:
     - db
