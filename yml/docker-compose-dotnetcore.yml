@@ -6,7 +6,6 @@ services:
       - "5000:5000"
     volumes:
       - /home/jackson/www/app-dotnet:/home/www/workdir
-      - $DIR_TMP:/home/www/.tmp
     working_dir: /home/www/workdir
   web:
     image: jacksonveroneze/nginx-proxy
