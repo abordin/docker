@@ -60,6 +60,11 @@ ADD shared/xdebug.ini /etc/php/7.0/mods-available
 ADD shared/sg.ini /etc/php/7.0/mods-available/sg.ini
 ADD shared/ixed.7.0.lin /usr/lib/php/20151012/ixed.7.0.lin
 
+RUN curl -sS https://getcomposer.org/installer | php \
+    && mv composer.phar /usr/local/bin/ \
+    && ln -s /usr/local/bin/composer.phar /usr/local/bin/composer \
+    && phpenmod sg
+
 WORKDIR /home/www/workdir
 
 EXPOSE 9000

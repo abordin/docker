@@ -7,7 +7,6 @@ services:
     volumes:
       - /home/jackson/www/e-school:/home/www/workdir
       - $DIR_TMP:/home/www/.tmp
-    working_dir: /home/www/workdir
     links:
     - fpm
   fpm:
@@ -17,7 +16,6 @@ services:
       - $DIR_SSH:/home/www/.ssh
       - $DIR_COMPOSER:/home/www/.composer
       - $DIR_TMP:/home/www/.tmp
-    working_dir: /home/www/workdir
     links:
     - db
     - cache
