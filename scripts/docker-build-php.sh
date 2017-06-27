@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source variables-ambient.sh
+cd ./../php/
 
 mkdir shared
 

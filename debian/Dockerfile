@@ -23,7 +23,6 @@ RUN apt-get update \
     unzip \
 	ntp \
     ssh \
-    supervisor \
     && apt-get autoremove -y \
     && apt-get clean \
     && apt-get autoclean \

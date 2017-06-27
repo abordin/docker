@@ -1,6 +1,8 @@
 #!/bin/bash
 
-mkdir shared
+cd ./../debian/
+
+mkdir -p shared
 
 cp ./../shared/* shared
 

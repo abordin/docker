@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd ./../nginx/
+
 mkdir shared
 
 cp ./../shared/* shared
