@@ -5,8 +5,8 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - /home/jackson/www/app-dotnet:/home/www/workdir
-    working_dir: /home/www/workdir
+      - /home/jackson/www/app-dotnet:/home/developer/workdir
+    working_dir: /home/developer/workdir
   web:
     image: jacksonveroneze/nginx-proxy
     ports:

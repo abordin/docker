@@ -4,13 +4,13 @@ MAINTAINER Jackson Veroneze <jackson@jacksonveroneze.com>
 
 ENV ASPNETCORE_URLS http://0.0.0.0:5000
 
-RUN adduser --disabled-password --gecos '' www \
-    && usermod -aG sudo www \
-    && usermod -aG www-data www \
-    && mkdir -p /home/www/workdir \
-    && chmod 777 /home/www/workdir
+RUN adduser --disabled-password --gecos '' developer \
+    && usermod -aG sudo developer \
+    && usermod -aG www-data developer \
+    && mkdir -p /home/developer/workdir \
+    && chmod 777 /home/developer/workdir
 
-WORKDIR /home/www/workdir
+WORKDIR /home/developer/workdir
 
 EXPOSE 5000
 

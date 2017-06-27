@@ -24,8 +24,6 @@ RUN ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default \
     && ln -sf /dev/stdout /var/log/nginx/access.log \
 	&& ln -sf /dev/stderr /var/log/nginx/error.log
 
-WORKDIR /home/www/workdir
-
 EXPOSE 443
 
 CMD nginx -g 'daemon off;'

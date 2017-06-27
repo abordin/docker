@@ -65,8 +65,6 @@ RUN curl -sS https://getcomposer.org/installer | php \
     && ln -s /usr/local/bin/composer.phar /usr/local/bin/composer \
     && phpenmod sg
 
-WORKDIR /home/www/workdir
-
 EXPOSE 9000
 
 ENTRYPOINT /usr/sbin/php-fpm7.0 --nodaemonize --force-stderr
