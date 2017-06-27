@@ -1,26 +1,11 @@
-FROM debian:stretch-slim
+FROM jacksonveroneze/debian-stretch-slim
 
 MAINTAINER Jackson Veroneze <jackson@jacksonveroneze.com>
 
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update \
-    && apt-get dist-upgrade -y \
-    && apt-get upgrade -y \
     && apt-get install --no-install-recommends --no-install-suggests -y \
-    locales \
-    apt-utils \
-    ca-certificates \
-    openssh-client \
-    curl \
-    nano \
-    git \
-    wget \
-    unzip \
-	ntp \
-    ssh \
-    nginx \
-    supervisor \
     php7.0-dev \
     php7.0-cli \
     php7.0-intl \
@@ -47,13 +32,8 @@ RUN apt-get update \
     && apt-get autoclean \
     && rm -rf /var/lib/apt/lists/*
 
-RUN export TERM=xterm \
-    && export XDEBUG_CONFIG="idekey=dbgp" \
-    && echo "export TERM=xterm" >> /root/.bashrc \
+RUN export XDEBUG_CONFIG="idekey=dbgp" \
     && echo "export XDEBUG_CONFIG=\"idekey=dbgp\"" >> /root/.bashrc \
-    && adduser --disabled-password --gecos '' www \
-    && usermod -aG sudo www \
-    && usermod -aG www-data www \
     && mkdir -p /var/run/php \
     && rm /etc/php/7.0/mods-available/xdebug.ini
 
@@ -73,9 +53,8 @@ RUN sed -i "s/;date.timezone =/date.timezone = America\/Sao_Paulo/" /etc/php/7.0
     && sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 5000M/" /etc/php/7.0/fpm/php.ini \
     && sed -i "s/post_max_size = 8M/post_max_size = 5000M/" /etc/php/7.0/cli/php.ini \
     && sed -i "s/post_max_size = 8M/post_max_size = 5000M/" /etc/php/7.0/fpm/php.ini \
-    && sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.0/fpm/php.ini
-
-RUN echo 'listen = 9000' >> /etc/php/7.0/fpm/pool.d/www.conf
+    && sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.0/fpm/php.ini \
+    && sed -i "s/listen = \/run\/php\/php7\.0\-fpm\.sock/listen = 9000/" /etc/php/7.0/fpm/pool.d/www.conf
 
 ADD shared/xdebug.ini /etc/php/7.0/mods-available
 ADD shared/sg.ini /etc/php/7.0/mods-available/sg.ini
