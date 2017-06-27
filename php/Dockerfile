@@ -1,0 +1,88 @@
+FROM debian:stretch-slim
+
+MAINTAINER Jackson Veroneze <jackson@jacksonveroneze.com>
+
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN apt-get update \
+    && apt-get dist-upgrade -y \
+    && apt-get upgrade -y \
+    && apt-get install --no-install-recommends --no-install-suggests -y \
+    locales \
+    apt-utils \
+    ca-certificates \
+    openssh-client \
+    curl \
+    nano \
+    git \
+    wget \
+    unzip \
+	ntp \
+    ssh \
+    nginx \
+    supervisor \
+    php7.0-dev \
+    php7.0-cli \
+    php7.0-intl \
+    php-soap \
+    php7.0-json \
+    php7.0-curl \
+    php7.0-fpm \
+    php-pear \
+    php7.0-gd \
+    php7.0-zip \
+    php7.0-pgsql \
+    php7.0-mysql \
+    php7.0-mcrypt \
+    php7.0-mbstring \
+    php7.0-memcached \
+    php7.0-memcache \
+    php7.0-xdebug \
+    php7.0-ldap \
+    php7.0-imagick \
+    php7.0-bcmath \
+    php7.0-interbase \
+    && apt-get autoremove -y \
+    && apt-get clean \
+    && apt-get autoclean \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN export TERM=xterm \
+    && export XDEBUG_CONFIG="idekey=dbgp" \
+    && echo "export TERM=xterm" >> /root/.bashrc \
+    && echo "export XDEBUG_CONFIG=\"idekey=dbgp\"" >> /root/.bashrc \
+    && adduser --disabled-password --gecos '' www \
+    && usermod -aG sudo www \
+    && usermod -aG www-data www \
+    && mkdir -p /var/run/php \
+    && rm /etc/php/7.0/mods-available/xdebug.ini
+
+RUN sed -i "s/;date.timezone =/date.timezone = America\/Sao_Paulo/" /etc/php/7.0/cli/php.ini \
+    && sed -i "s/;date.timezone =/date.timezone = America\/Sao_Paulo/" /etc/php/7.0/fpm/php.ini \
+    && sed -i "s/short_open_tag = On/short_open_tag = Off/" /etc/php/7.0/cli/php.ini \
+    && sed -i "s/short_open_tag = On/short_open_tag = Off/" /etc/php/7.0/fpm/php.ini \
+    && sed -i "s/error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT/error_reporting = E_ALL/" /etc/php/7.0/cli/php.ini \
+    && sed -i "s/error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT/error_reporting = E_ALL/" /etc/php/7.0/fpm/php.ini \
+    && sed -i "s/display_errors = Off/display_errors = On/" /etc/php/7.0/cli/php.ini \
+    && sed -i "s/display_errors = Off/display_errors = On/" /etc/php/7.0/fpm/php.ini \
+    && sed -i "s/display_startup_errors = Off/display_startup_errors = On/" /etc/php/7.0/cli/php.ini \
+    && sed -i "s/display_startup_errors = Off/display_startup_errors = On/" /etc/php/7.0/fpm/php.ini \
+    && sed -i "s/log_errors = Off/log_errors = On/" /etc/php/7.0/cli/php.ini \
+    && sed -i "s/log_errors = Off/log_errors = On/" /etc/php/7.0/fpm/php.ini \
+    && sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 5000M/" /etc/php/7.0/cli/php.ini \
+    && sed -i "s/upload_max_filesize = 2M/upload_max_filesize = 5000M/" /etc/php/7.0/fpm/php.ini \
+    && sed -i "s/post_max_size = 8M/post_max_size = 5000M/" /etc/php/7.0/cli/php.ini \
+    && sed -i "s/post_max_size = 8M/post_max_size = 5000M/" /etc/php/7.0/fpm/php.ini \
+    && sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.0/fpm/php.ini
+
+RUN echo 'listen = 9000' >> /etc/php/7.0/fpm/pool.d/www.conf
+
+ADD shared/xdebug.ini /etc/php/7.0/mods-available
+ADD shared/sg.ini /etc/php/7.0/mods-available/sg.ini
+ADD shared/ixed.7.0.lin /usr/lib/php/20151012/ixed.7.0.lin
+
+WORKDIR /home/www/workdir
+
+EXPOSE 9000
+
+ENTRYPOINT /usr/sbin/php-fpm7.0 --nodaemonize --force-stderr
