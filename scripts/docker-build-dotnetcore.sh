@@ -1,6 +1,8 @@
 #!/bin/bash
 
-mkdir shared
+cd ./../dotnet/
+
+mkdir -p shared
 
 cp ./../shared/* shared
 

@@ -1,15 +1,21 @@
 version: "2"
 services:
   web:
-    image: jacksonveroneze/php7.0-fpm-nginx
+    image: jacksonveroneze/nginx-php
     ports:
       - "4443:443"
     volumes:
-      - /home/jackson/www/g-mus-dev:/home/www/workdir
-      - $DIR_SSH:/home/www/.ssh
-      - $DIR_COMPOSER:/home/www/.composer
-      - $DIR_TMP:/home/www/.tmp
-    working_dir: /home/www/workdir
+      - /home/jackson/www/g-mus-dev:/home/developer/workdir
+      - $DIR_TMP:/home/developer/.tmp
+    links:
+    - fpm
+  fpm:
+    image: jacksonveroneze/php7.0-fpm
+    volumes:
+      - /home/jackson/www/g-mus-dev:/home/developer/workdir
+      - $DIR_SSH:/home/developer/.ssh
+      - $DIR_COMPOSER:/home/developer/.composer
+      - $DIR_TMP:/home/developer/.tmp
     links:
     - db
     - cache
@@ -18,10 +24,10 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - /home/jackson/.datastorage/postgres/gmus/:/var/lib/postgresql/data
+      - $DIR_DATA_STORAGE_GMUS:/var/lib/postgresql/data
     restart: always
     environment:
-      POSTGRES_PASSWORD: 0ac03851e944231e8b05e553dc6637f8
+      POSTGRES_PASSWORD: $PASSWORD_STORAGE
   cache:
     image: memcached
     ports:
@@ -31,15 +37,15 @@ services:
     ports:
     - "7001:7001"
     volumes: 
-        - /home/jackson/www/g-mus-dev:/home/www/workdir:rw
-        - /home/jackson/.tmp/:/home/www/.tmp:rw
-    working_dir: /home/www/workdir/library/vendor/inovadora/mordomo
+        - /home/jackson/www/g-mus-dev:/home/developer/workdir:rw
+        - $DIR_TMP:/home/developer/.tmp:rw
+    working_dir: /home/developer/workdir/library/vendor/inovadora/mordomo
     command: java -jar Mordomo.jar
   pgadmin:
     image: chorss/docker-pgadmin4
     ports:
       - "5050:5050"
     volumes:
-      - /home/jackson/.tmp/pgadmin:/data/
+      - $DIR_PGADMIN_DATA:/data/
     links:
     - db

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd ./../postgres9.4-ssl/
+
 mkdir shared
 
 cp ./../shared/* shared
