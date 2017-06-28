@@ -6,7 +6,11 @@ services:
   - docker
 
 script:
-  - ./build.sh
+  - cd scripts
+  - ./docker-build-debian.sh
+  - ./docker-build-nginx.sh
+  - ./docker-build-php.sh
+  - ./docker-build-postgres
 
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then

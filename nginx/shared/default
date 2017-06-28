@@ -1,0 +1,23 @@
+server {
+    index index.php index.html index.htm;
+
+    include nginx-shared.conf;
+
+    location / {
+        try_files $uri $uri/ /index.php$is_args$args;
+    }
+
+    location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
+        expires 1y;
+        log_not_found off;
+    }
+
+    location ~ \.php$ {
+        fastcgi_pass fpm:9000;
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+        fastcgi_param APPLICATION_ENV development; 
+        fastcgi_read_timeout 30000; 
+    }
+}
