@@ -10,7 +10,7 @@ script:
   - ./docker-build-debian.sh
   - ./docker-build-nginx.sh
   - ./docker-build-php.sh
-  - ./docker-build-postgres
+  - ./docker-build-postgres.sh
 
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
