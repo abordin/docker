@@ -5,14 +5,14 @@ services:
     ports:
       - "4443:443"
     volumes:
-      - /home/jackson/www/g-mas-dev:/home/developer/workdir
+      - /home/$USER/www/g-mas-dev:/home/developer/workdir
       - $DIR_TMP:/home/developer/.tmp
     links:
     - fpm
   fpm:
     image: jacksonveroneze/php7.0-fpm
     volumes:
-      - /home/jackson/www/g-mas-dev:/home/developer/workdir
+      - /home/$USER/www/g-mas-dev:/home/developer/workdir
       - $DIR_SSH:/home/developer/.ssh
       - $DIR_COMPOSER:/home/developer/.composer
       - $DIR_TMP:/home/developer/.tmp
