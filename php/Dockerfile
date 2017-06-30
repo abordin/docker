@@ -57,7 +57,7 @@ RUN sed -i "s/;date.timezone =/date.timezone = America\/Sao_Paulo/" /etc/php/7.0
     && sed -i "s/listen = \/run\/php\/php7\.0\-fpm\.sock/listen = 9000/" /etc/php/7.0/fpm/pool.d/www.conf
 
 ADD shared/xdebug.ini /etc/php/7.0/mods-available
-ADD shared/sg.ini /etc/php/7.0/mods-available/sg.ini
+ADD shared/sg-7.0.ini /etc/php/7.0/mods-available/sg.ini
 ADD shared/ixed.7.0.lin /usr/lib/php/20151012/ixed.7.0.lin
 
 RUN curl -sS https://getcomposer.org/installer | php \

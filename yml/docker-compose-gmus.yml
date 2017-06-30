@@ -7,6 +7,7 @@ services:
     volumes:
       - /home/$USER/www/g-mus-dev:/home/developer/workdir
       - $DIR_TMP:/home/developer/.tmp
+      - $DIR_TMP:/var/log/nginx
     links:
     - fpm
   fpm:
@@ -31,7 +32,7 @@ services:
   cache:
     image: memcached
     ports:
-      - "11213:11211"
+      - "11211:11211"
   mordomo:
     image: openjdk:7-jre
     ports:

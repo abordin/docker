@@ -15,6 +15,8 @@ RUN apt-get update \
     && apt-get install --no-install-recommends --no-install-suggests -y \
     libpq5 \
     locales \
+    apt-transport-https \
+    lsb-release \
     apt-utils \
     ca-certificates \
     openssh-client \
