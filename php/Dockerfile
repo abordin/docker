@@ -27,6 +27,7 @@ RUN apt-get update \
     php7.0-imagick \
     php7.0-bcmath \
     php7.0-interbase \
+    php-pecl-http \
     && apt-get autoremove -y \
     && apt-get clean \
     && apt-get autoclean \
