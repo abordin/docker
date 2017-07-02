@@ -13,11 +13,11 @@ RUN apt-get update \
     && apt-get dist-upgrade -y \
     && apt-get upgrade -y \
     && apt-get install --no-install-recommends --no-install-suggests -y \
+    apt-utils \
     libpq5 \
     locales \
     apt-transport-https \
     lsb-release \
-    apt-utils \
     ca-certificates \
     openssh-client \
     curl \
