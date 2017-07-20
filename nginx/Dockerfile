@@ -13,9 +13,11 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 RUN rm /etc/nginx/sites-available/default && rm /etc/nginx/sites-enabled/default \
-    && mkdir /etc/nginx/ssl/
+    && mkdir /etc/nginx/ssl \
+    && rm /etc/nginx/nginx.conf
 
 ADD shared/default /etc/nginx/sites-available/
+ADD shared/nginx.conf /etc/nginx/
 ADD shared/nginx-shared.conf /etc/nginx/
 ADD shared/certificate.crt /etc/nginx/ssl/
 ADD shared/certificate.key /etc/nginx/ssl/
