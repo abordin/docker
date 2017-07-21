@@ -1,5 +1,7 @@
 version: "2"
 services:
+  ###########################################################################
+
   web:
     image: jacksonveroneze/nginx-php
     ports:
@@ -7,10 +9,14 @@ services:
     volumes:
       - /home/$USER/www/e-school:/home/developer/workdir
       - $DIR_TMP:/home/developer/.tmp
+      - $DIR_TMP:/var/log/nginx
     links:
     - fpm
+
+  ###########################################################################
+
   fpm:
-    image: jacksonveroneze/php7.1-fpm
+    image: jacksonveroneze/php7.0-fpm
     volumes:
       - /home/$USER/www/e-school:/home/developer/workdir
       - $DIR_SSH:/home/developer/.ssh
@@ -20,6 +26,9 @@ services:
     - db
     - cache
     - cache_session
+
+  ###########################################################################
+
   db:
     image: mysql:5.7
     ports:
@@ -29,14 +38,21 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: $PASSWORD_STORAGE
+
+  ###########################################################################
+
   cache:
     image: memcached
     ports:
       - "11211:11211"
+
   cache_session:
     image: memcached
     ports:
       - "11215:11211"
+
+  ###########################################################################
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     ports:
