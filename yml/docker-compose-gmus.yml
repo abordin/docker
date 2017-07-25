@@ -2,20 +2,53 @@ version: "2"
 services:
   ###########################################################################
 
-  web:
-    image: jacksonveroneze/nginx-php
+  nginx_balance:
+    image: jacksonveroneze/nginx-balance
     ports:
       - "4443:443"
+    volumes:
+      - $DIR_TMP:/var/log/nginx
+    links:
+    - nginx1
+    - nginx2
+
+  nginx1:
+    image: jacksonveroneze/nginx-php
     volumes:
       - /home/$USER/www/g-mus-dev:/home/developer/workdir
       - $DIR_TMP:/home/developer/.tmp
       - $DIR_TMP:/var/log/nginx
     links:
-    - fpm
+    - fpm1
+    environment:
+      FPM_NAME: fpm1
+
+  nginx2:
+    image: jacksonveroneze/nginx-php
+    volumes:
+      - /home/$USER/www/g-mus-dev:/home/developer/workdir
+      - $DIR_TMP:/home/developer/.tmp
+      - $DIR_TMP:/var/log/nginx
+    links:
+    - fpm2
+    environment:
+      FPM_NAME: fpm2
 
   ###########################################################################
 
-  fpm:
+  fpm1:
+    image: jacksonveroneze/php7.0-fpm
+    volumes:
+      - /home/$USER/www/g-mus-dev:/home/developer/workdir
+      - $DIR_SSH:/home/developer/.ssh
+      - $DIR_COMPOSER:/home/developer/.composer
+      - $DIR_TMP:/home/developer/.tmp
+    links:
+    - db
+    - cache
+    - cache_session
+
+  fpm2:
     image: jacksonveroneze/php7.0-fpm
     volumes:
       - /home/$USER/www/g-mus-dev:/home/developer/workdir
