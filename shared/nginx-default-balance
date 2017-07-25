@@ -1,6 +1,6 @@
 upstream balance {
-	server nginx1:4443 weight=1 max_fails=5 fail_timeout=5;;
-	server nginx2:4443 weight=1 max_fails=5 fail_timeout=5;;
+	server nginx1:4443 weight=4 max_fails=5 fail_timeout=5;;
+	server nginx2:4443 weight=4 max_fails=5 fail_timeout=5;;
 }
 
 server {
