@@ -14,6 +14,6 @@ rm ./shared/default
 
 mv ./shared/nginx-default-balance ./shared/default
 
-docker build -t jacksonveroneze/nginx-proxy .
+docker build -t jacksonveroneze/nginx-balance .
 
 rm -rf shared
