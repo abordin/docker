@@ -12,7 +12,7 @@ docker build -t jacksonveroneze/nginx-php .
 
 rm ./shared/default
 
-mv ./shared/nginx-default-proxy ./shared/default
+mv ./shared/nginx-default-balance ./shared/default
 
 docker build -t jacksonveroneze/nginx-proxy .
 
