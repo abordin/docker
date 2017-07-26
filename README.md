@@ -1,6 +1,6 @@
 ## Docker images
 
-Imagens criadas para auxiliar no desenvolvimento em PHP na empresa Inovadora Sistemas. O funcionamento correto está condicionado a estrutura de diretórios abaixo mencionada, porém pode-se alterar conforme a necessidade, realizando os ajustes necessários.
+Imagens criadas para auxiliar no desenvolvimento em PHP. O funcionamento correto está condicionado a estrutura de diretórios abaixo mencionada, porém pode-se alterar conforme a necessidade, realizando os ajustes necessários.
 
 - Todos os comandos devem ser executados com um usuário comum.
 - Por padrão, os seus projetos devem estar dentro de */home/USER/www/*.
