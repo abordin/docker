@@ -1,0 +1,102 @@
+version: "2"
+services:
+  ###########################################################################
+
+  nginx_balance:
+    image: jacksonveroneze/nginx-balance
+    ports:
+      - "4443:443"
+    volumes:
+      - $DIR_TMP:/var/log/nginx
+    links:
+    - nginx1
+    - nginx2
+
+  nginx1:
+    image: jacksonveroneze/nginx-php
+    volumes:
+      - /home/$USER/www/g-mas:/home/developer/workdir
+      - $DIR_TMP:/home/developer/.tmp
+      - $DIR_TMP:/var/log/nginx
+    links:
+    - fpm1
+    environment:
+      FPM_HOST_NAME: fpm1
+
+  nginx2:
+    image: jacksonveroneze/nginx-php
+    volumes:
+      - /home/$USER/www/g-mas:/home/developer/workdir
+      - $DIR_TMP:/home/developer/.tmp
+      - $DIR_TMP:/var/log/nginx
+    links:
+    - fpm2
+    environment:
+      FPM_HOST_NAME: fpm2
+
+  ###########################################################################
+
+  fpm1:
+    image: jacksonveroneze/php7.0-fpm
+    volumes:
+      - /home/$USER/www/g-mas:/home/developer/workdir
+      - $DIR_SSH:/home/developer/.ssh
+      - $DIR_COMPOSER:/home/developer/.composer
+      - $DIR_TMP:/home/developer/.tmp
+    links:
+    - db
+    - cache
+    - cache_session
+
+  fpm2:
+    image: jacksonveroneze/php7.0-fpm
+    volumes:
+      - /home/$USER/www/g-mas:/home/developer/workdir
+      - $DIR_SSH:/home/developer/.ssh
+      - $DIR_COMPOSER:/home/developer/.composer
+      - $DIR_TMP:/home/developer/.tmp
+    links:
+    - db
+    - cache
+    - cache_session
+
+  ###########################################################################
+
+  db:
+    image: jacksonveroneze/postgres9.4-ssl
+    ports:
+      - "5432:5432"
+    volumes:
+      - $DIR_DATA_STORAGE_GMUS:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: $PASSWORD_STORAGE
+  
+  ###########################################################################
+
+  cache:
+    image: memcached
+
+  cache_session:
+    image: memcached
+    command: -I 3M
+
+  ###########################################################################
+
+  mordomo:
+    image: openjdk:7-jre
+    volumes: 
+        - /home/$USER/www/g-mas:/home/developer/workdir:rw
+        - $DIR_TMP:/home/developer/.tmp:rw
+    working_dir: /home/developer/workdir/library/vendor/inovadora/mordomo
+    command: java -jar Mordomo.jar
+
+  ###########################################################################
+  
+  pgadmin:
+    image: chorss/docker-pgadmin4
+    ports:
+      - "5050:5050"
+    volumes:
+      - $DIR_PGADMIN_DATA:/data/
+    links:
+    - db
