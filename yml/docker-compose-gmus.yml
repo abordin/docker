@@ -21,7 +21,7 @@ services:
     links:
     - fpm1
     environment:
-      FPM_NAME: fpm1
+      FPM_HOST_NAME: fpm1
 
   nginx2:
     image: jacksonveroneze/nginx-php
@@ -32,7 +32,7 @@ services:
     links:
     - fpm2
     environment:
-      FPM_NAME: fpm2
+      FPM_HOST_NAME: fpm2
 
   ###########################################################################
 

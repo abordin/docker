@@ -12,6 +12,8 @@ services:
       - $DIR_TMP:/var/log/nginx
     links:
     - fpm
+    environment:
+      FPM_HOST_NAME: fpm
 
   ###########################################################################
 
