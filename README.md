@@ -1,9 +1,9 @@
 ## Docker images
 
-Imagens criadas para auxiliar no desenvolvimento em PHP na empresa Inovadora Sistemas. O funcionamento correto está condicionado a estrutura de diretórios abaixo mencionada, porém podes-se alterar conforme a necessidade, realizando os ajustes necessários.
+Imagens criadas para auxiliar no desenvolvimento em PHP na empresa Inovadora Sistemas. O funcionamento correto está condicionado a estrutura de diretórios abaixo mencionada, porém pode-se alterar conforme a necessidade, realizando os ajustes necessários.
 
 - Todos os comandos devem ser executados com um usuário comum.
-- Por padrão, os seus projetos devem estar dentro de "/home/USER/www/"
+- Por padrão, os seus projetos devem estar dentro de */home/USER/www/*.
 - É usado balanceamento de carga com o nginx, para simular a realidade do cliente.
 
 ### Instalação
@@ -65,8 +65,20 @@ $ ./build-environment.sh
 $ docker-gmus
 ```
 
-##### G-MUS
+##### G-MAS
 
 ```bash
 $ docker-gmas
 ```
+
+## Documentation
+
+### Author
+
+Jackson Veroneze - <jackson@jacksonveroneze.com> - <http://jacksonveroneze.com>
+See also the list of [contributors](https://github.com/jacksonveroneze/docker/graphs/contributors) which participated in this project.
+
+### License
+
+Docker Images is licensed under the MIT License - see the `LICENSE` file for details
+
