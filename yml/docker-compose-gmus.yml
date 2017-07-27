@@ -2,15 +2,25 @@ version: "2"
 services:
   ###########################################################################
 
-  nginx_balance:
+  haproxy_balance:
     image: jacksonveroneze/nginx-balance
     ports:
-      - "4443:443"
-    volumes:
-      - $DIR_TMP:/var/log/nginx
+    - 4444:443
     links:
     - nginx1
     - nginx2
+
+  nginx_balance:
+    image: jacksonveroneze/nginx-balance
+    ports:
+    - "4443:443"
+    volumes:
+    - $DIR_TMP:/var/log/nginx
+    links:
+    - nginx1
+    - nginx2
+
+  ###########################################################################
 
   nginx1:
     image: jacksonveroneze/nginx-php
