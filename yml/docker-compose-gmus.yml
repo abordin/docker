@@ -2,14 +2,6 @@ version: "2"
 services:
   ###########################################################################
 
-  haproxy_balance:
-    image: jacksonveroneze/nginx-balance
-    ports:
-    - 4444:443
-    links:
-    - nginx1
-    - nginx2
-
   nginx_balance:
     image: jacksonveroneze/nginx-balance
     ports:
