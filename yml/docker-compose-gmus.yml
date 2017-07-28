@@ -2,6 +2,14 @@ version: "2"
 services:
   ###########################################################################
 
+  haproxy_balance:
+    image: jacksonveroneze/nginx-balance
+    ports:
+    - 4444:443
+    links:
+    - nginx1
+    - nginx2
+
   nginx_balance:
     image: jacksonveroneze/nginx-balance
     ports:
@@ -77,10 +85,12 @@ services:
 
   cache:
     image: memcached
+    environment:
+    - MEMCACHED_MEMORY_LIMIT=128
 
   cache_session:
     image: memcached
-    command: -I 3M
+    command: -I 10M
 
   ###########################################################################
 
