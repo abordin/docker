@@ -1,6 +1,6 @@
 #!/bin/bash	
 
-echo -e "\n\nsource /home/$USER/www/docker/environment-variables.sh" >> /home/$USER/.bashrc
+echo -e "\n\nsource /home/$USER/www/docker/bashrc.sh" >> /home/$USER/.bashrc
 
 source /home/$USER/.bashrc
 
