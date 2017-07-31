@@ -32,7 +32,7 @@ Adicione ao final do arquivo:
 source /home/$USER/www/docker/bashrc.sh
 ```
 
-Abra outro terminal ou recaregue as configurações do .bashrcc com o comando:
+Abra outro terminal ou recaregue as configurações do .bashrc com o comando:
 
 ```bash
 $ source ~/.bashrc
