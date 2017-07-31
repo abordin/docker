@@ -45,6 +45,7 @@ Para construir as imagens necessárias, acesse o diretório scripts e execute os
 ```bash
 $ ./docker-build-debian.sh
 $ ./docker-build-nginx.sh
+$ ./docker-build-haproxy.sh
 $ ./docker-build-php.sh
 $ ./docker-build-postgres.sh
 ```
