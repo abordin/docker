@@ -8,7 +8,7 @@ Imagens criadas para auxiliar no desenvolvimento em PHP. O funcionamento correto
 
 ### Instalação
 
-Dentro do diretório do seu usuário crie um diretório www. Em seguida clone o repositório.
+Dentro do home do seu usuário crie um diretório www. Em seguida clone o repositório.
 
 ```bash
 $ cd ~
@@ -57,19 +57,51 @@ Execute o comando abaixo para cirar os diretórios onde será armazenado os logs
 $ ./build-environment.sh
 ```
 
-### Subindo os containers
+### Comandos
 
-##### G-MUS
+##### Subir G-MUS
 
 ```bash
 $ docker-gmus
 ```
 
-##### G-MAS
+##### Subir G-MAS
 
 ```bash
 $ docker-gmas
 ```
+
+##### Subir G-MAS(Criptografado)
+
+```bash
+$ docker-gmus-crypt
+```
+
+##### Subir G-MAS(Criptografado)
+
+```bash
+$ docker-gmas-crypt
+```
+
+##### Apagar todos os containers
+
+```bash
+$ docker-clear
+```
+##### Listar os containers e seu uso
+
+```bash
+$ docker-stats
+```
+
+##### Remover imagens não utilizadas do cache local
+
+```bash
+$ docker-clear-images
+```
+
+docker rmi $(docker images -f "dangling=true" -q)
+
 
 ## Documentation
 

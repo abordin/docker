@@ -21,13 +21,13 @@ ADD shared/nginx.conf /etc/nginx/
 ADD shared/nginx-shared.conf /etc/nginx/
 ADD shared/certificate.crt /etc/nginx/ssl/
 ADD shared/certificate.key /etc/nginx/ssl/
-ADD shared/nginx-entrypoint.sh /home/developer/
+ADD shared/nginx-cmd.sh /home/developer/
 
 RUN ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default \
     && ln -sf /dev/stdout /var/log/nginx/access.log \
 	&& ln -sf /dev/stderr /var/log/nginx/error.log \
-    && chmod 777 /home/developer/nginx-entrypoint.sh
+    && chmod 777 /home/developer/nginx-cmd.sh
 
 EXPOSE 443
 
-CMD /home/developer/nginx-entrypoint.sh
+CMD /home/developer/nginx-cmd.sh
