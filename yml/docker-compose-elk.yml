@@ -1,0 +1,72 @@
+version: '2'
+services:
+
+ ##########################################################
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    volumes:
+      - $DIR_TMP/rabbitmq:/var/lib/rabbitmq/mnesia
+    ports:
+      - "15672:15672"
+      - "5672:5672"    
+    networks:
+      - log
+    environment:
+      RABBITMQ_DEFAULT_USER: logUser
+      RABBITMQ_DEFAULT_PASS: logPwd
+      RABBITMQ_DEFAULT_VHOST: EnterpriseLog
+
+  ##########################################################
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:5.3.1
+    volumes:
+      - /home/$USER/www/docker/shared/elk/product.logstash.twitter.conf:/config/product.logstash.conf
+      - /home/$USER/www/docker/shared/elk/twitter_template.json:/config/twitter_template.json      
+    depends_on:
+      - rabbitmq
+      - elasticsearch
+    links:
+      - rabbitmq:AMQPServer
+      - elasticsearch:elasticsearch
+    networks:
+      - log    
+    command: ["-f", "/config/product.logstash.conf"]
+
+  ##########################################################
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.3.1
+    environment: 
+      - "http.host:0.0.0.0"
+      - "transport.host:127.0.0.1"
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes: 
+      - /home/$USER/www/docker/shared/elk/product.elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    networks:
+      - log
+
+  ##########################################################
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:5.3.1
+    volumes:
+      - /home/$USER/www/docker/shared/elk/product.kibana.yml:/usr/share/kibana/config/kibana.yml
+    depends_on:
+      - elasticsearch
+    links:
+      - elasticsearch:elasticsearch
+    ports:
+      - "5601:5601"
+    networks:
+      - log
+
+volumes:
+  mq_data:
+
+networks:
+  log:
+    driver: bridge
