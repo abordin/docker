@@ -21,8 +21,7 @@ services:
   logstash:
     image: docker.elastic.co/logstash/logstash:5.3.1
     volumes:
-      - /home/$USER/www/docker/shared/elk/product.logstash.twitter.conf:/config/product.logstash.conf
-      - /home/$USER/www/docker/shared/elk/twitter_template.json:/config/twitter_template.json      
+      - /home/$USER/www/docker/shared/elk/product.logstash.http.pooler.conf:/config/product.logstash.conf
     depends_on:
       - rabbitmq
       - elasticsearch
@@ -30,7 +29,8 @@ services:
       - rabbitmq:AMQPServer
       - elasticsearch:elasticsearch
     networks:
-      - log    
+      - log
+    command: ["./opt/logstash/bin/logstash-plugin", "install", "logstash-input-http_poller"]
     command: ["-f", "/config/product.logstash.conf"]
 
   ##########################################################

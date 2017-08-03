@@ -90,7 +90,7 @@ services:
 
   cache_session:
     image: memcached
-    command: -I 10M
+    command: -I 5M
 
   ###########################################################################
 

@@ -1,0 +1,61 @@
+version: "2"
+services:
+  ###########################################################################
+
+  nginx:
+    image: jacksonveroneze/nginx-php
+    ports:
+      - "4443:443"
+    volumes:
+      - /home/$USER/www/g-mas-api-dev:/home/developer/workdir
+      - $DIR_TMP:/home/developer/.tmp
+      - $DIR_TMP:/var/log/nginx
+    links:
+    - fpm
+    environment:
+      FPM_HOST_NAME: fpm
+
+  ###########################################################################
+
+  fpm:
+    image: jacksonveroneze/php7.0-fpm
+    volumes:
+      - /home/$USER/www/g-mas-api-dev:/home/developer/workdir
+      - $DIR_SSH:/home/developer/.ssh
+      - $DIR_COMPOSER:/home/developer/.composer
+      - $DIR_TMP:/home/developer/.tmp
+    links:
+    - db
+    - cache
+    - cache_session
+
+  ###########################################################################
+
+  db:
+    image: jacksonveroneze/postgres9.4-ssl
+    ports:
+      - "5432:5432"
+    volumes:
+      - $DIR_DATA_STORAGE_GMUS:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: $PASSWORD_STORAGE
+  
+  ###########################################################################
+
+  cache:
+    image: memcached
+
+  cache_session:
+    image: memcached
+    command: -I 3M
+
+  ###########################################################################
+  
+  pgadmin:
+    image: chorss/docker-pgadmin4
+    ports:
+      - "5050:5050"
+    volumes:
+      - $DIR_PGADMIN_DATA:/data/
+    links:
+    - db
