@@ -2,15 +2,15 @@ version: "2"
 services:
   ###########################################################################
 
-  nginx_balance:
+  haproxy:
     image: jacksonveroneze/nginx-balance
     ports:
-      - "4443:443"
-    volumes:
-      - $DIR_TMP:/var/log/nginx
+    - 4443:443
     links:
     - nginx1
     - nginx2
+
+  ###########################################################################
 
   nginx1:
     image: jacksonveroneze/nginx-php
@@ -75,10 +75,11 @@ services:
 
   cache:
     image: memcached
+    command: -m 512 -t 4
 
   cache_session:
     image: memcached
-    command: -I 3M
+    command: -I 3M -m 64 -t 4
 
   ###########################################################################
 

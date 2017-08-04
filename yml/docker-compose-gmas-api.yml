@@ -2,25 +2,56 @@ version: "2"
 services:
   ###########################################################################
 
-  nginx:
-    image: jacksonveroneze/nginx-php
+  haproxy:
+    image: jacksonveroneze/nginx-balance
     ports:
-      - "4443:443"
-    volumes:
-      - /home/$USER/www/g-mas-api-dev:/home/developer/workdir
-      - $DIR_TMP:/home/developer/.tmp
-      - $DIR_TMP:/var/log/nginx
+    - 4443:443
     links:
-    - fpm
-    environment:
-      FPM_HOST_NAME: fpm
+    - nginx1
+    - nginx2
 
   ###########################################################################
 
-  fpm:
+  nginx1:
+    image: jacksonveroneze/nginx-php
+    volumes:
+      - /home/$USER/www/g-mus:/home/developer/workdir
+      - $DIR_TMP:/home/developer/.tmp
+      - $DIR_TMP:/var/log/nginx
+    links:
+    - fpm1
+    environment:
+      FPM_HOST_NAME: fpm1
+
+  nginx2:
+    image: jacksonveroneze/nginx-php
+    volumes:
+      - /home/$USER/www/g-mus:/home/developer/workdir
+      - $DIR_TMP:/home/developer/.tmp
+      - $DIR_TMP:/var/log/nginx
+    links:
+    - fpm2
+    environment:
+      FPM_HOST_NAME: fpm2
+
+  ###########################################################################
+
+  fpm1:
     image: jacksonveroneze/php7.0-fpm
     volumes:
-      - /home/$USER/www/g-mas-api-dev:/home/developer/workdir
+      - /home/$USER/www/g-mus:/home/developer/workdir
+      - $DIR_SSH:/home/developer/.ssh
+      - $DIR_COMPOSER:/home/developer/.composer
+      - $DIR_TMP:/home/developer/.tmp
+    links:
+    - db
+    - cache
+    - cache_session
+
+  fpm2:
+    image: jacksonveroneze/php7.0-fpm
+    volumes:
+      - /home/$USER/www/g-mus:/home/developer/workdir
       - $DIR_SSH:/home/developer/.ssh
       - $DIR_COMPOSER:/home/developer/.composer
       - $DIR_TMP:/home/developer/.tmp
@@ -44,10 +75,21 @@ services:
 
   cache:
     image: memcached
+    command: -m 512 -t 4
 
   cache_session:
     image: memcached
-    command: -I 3M
+    command: -I 3M -m 64 -t 4
+
+  ###########################################################################
+
+  mordomo:
+    image: openjdk:7-jre
+    volumes: 
+        - /home/$USER/www/g-mus:/home/developer/workdir:rw
+        - $DIR_TMP:/home/developer/.tmp:rw
+    working_dir: /home/developer/workdir/library/vendor/inovadora/mordomo
+    command: java -jar Mordomo.jar
 
   ###########################################################################
   
