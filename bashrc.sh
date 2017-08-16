@@ -13,5 +13,3 @@ alias docker-gmas-api='docker-compose -f /home/$USER/www/docker/yml/docker-compo
 #
 alias docker-gmus-crypt='docker-compose -f /home/$USER/www/docker/yml/docker-compose-gmus-crypt.yml -p gmus-crypt up -d'
 alias docker-gmas-crypt='docker-compose -f /home/$USER/www/docker/yml/docker-compose-gmas-crypt.yml -p gmas-crypt up -d'
-#
-alias docker-eschool='docker-compose -f /home/$USER/www/docker/yml/docker-compose-eschool.yml -p eschool up -d'

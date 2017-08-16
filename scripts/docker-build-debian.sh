@@ -4,7 +4,7 @@ cd ./../debian/
 
 mkdir -p shared
 
-cp ./../shared/* shared
+cp -r ./../shared/* shared
 
 docker build -t jacksonveroneze/debian-stretch-slim .
 

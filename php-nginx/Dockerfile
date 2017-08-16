@@ -6,6 +6,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update \
     && apt-get install --no-install-recommends --no-install-suggests -y \
+    nginx \
     php7.0-dev \
     php7.0-cli \
     php7.0-intl \
@@ -37,7 +38,10 @@ RUN apt-get update \
 RUN export XDEBUG_CONFIG="idekey=dbgp" \
     && echo "export XDEBUG_CONFIG=\"idekey=dbgp\"" >> /home/developer/.bashrc \
     && mkdir -p /var/run/php \
-    && rm /etc/php/7.0/mods-available/xdebug.ini
+    && rm /etc/php/7.0/mods-available/xdebug.ini \
+    && rm /etc/nginx/sites-available/default && rm /etc/nginx/sites-enabled/default \
+    && mkdir /etc/nginx/ssl \
+    && rm /etc/nginx/nginx.conf
 
 RUN sed -i "s/;date.timezone =/date.timezone = America\/Sao_Paulo/" /etc/php/7.0/cli/php.ini \
     && sed -i "s/;date.timezone =/date.timezone = America\/Sao_Paulo/" /etc/php/7.0/fpm/php.ini \
@@ -56,7 +60,6 @@ RUN sed -i "s/;date.timezone =/date.timezone = America\/Sao_Paulo/" /etc/php/7.0
     && sed -i "s/post_max_size = 8M/post_max_size = 5000M/" /etc/php/7.0/cli/php.ini \
     && sed -i "s/post_max_size = 8M/post_max_size = 5000M/" /etc/php/7.0/fpm/php.ini \
     && sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.0/fpm/php.ini \
-    && sed -i "s/listen = \/run\/php\/php7\.0\-fpm\.sock/listen = 9000/" /etc/php/7.0/fpm/pool.d/www.conf \
     && sed -i "s/session.save_handler = files/session.save_handler = memcached/" /etc/php/7.0/fpm/php.ini \
     && sed -i "s/;session.save_path = \"\/var\/lib\/php\/sessions\"/session.save_path = cache_session:11211/" /etc/php/7.0/fpm/php.ini \
     && sed -i "s/;session.lazy_write = On/session.lazy_write = Off/" /etc/php/7.0/fpm/php.ini \
@@ -70,12 +73,22 @@ RUN sed -i "s/;date.timezone =/date.timezone = America\/Sao_Paulo/" /etc/php/7.0
 ADD shared/xdebug.ini /etc/php/7.0/mods-available
 ADD shared/sg-7.0.ini /etc/php/7.0/mods-available/sg.ini
 ADD shared/ixed.7.0.lin /usr/lib/php/20151012/ixed.7.0.lin
+ADD shared/default /etc/nginx/sites-available/
+ADD shared/nginx.conf /etc/nginx/
+ADD shared/nginx-shared.conf /etc/nginx/
+ADD shared/certificate.crt /etc/nginx/ssl/
+ADD shared/certificate.key /etc/nginx/ssl/
+ADD shared/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 RUN curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/ \
     && ln -s /usr/local/bin/composer.phar /usr/local/bin/composer \
     && phpenmod sg
 
-EXPOSE 9000
+RUN ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default \
+    && ln -sf /dev/stdout /var/log/nginx/access.log \
+	&& ln -sf /dev/stderr /var/log/nginx/error.log
 
-ENTRYPOINT /usr/sbin/php-fpm7.0 --nodaemonize --force-stderr
+EXPOSE 443
+
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

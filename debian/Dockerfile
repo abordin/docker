@@ -14,6 +14,7 @@ RUN apt-get update \
     && apt-get dist-upgrade -y \
     && apt-get upgrade -y \
     && apt-get install --no-install-recommends --no-install-suggests -y \
+    supervisor \
     apt-utils \
     libpq5 \
     locales \
@@ -27,13 +28,17 @@ RUN apt-get update \
     wget \
     unzip \
 	ntp \
+    gcc \
+    make \
+    autoconf \
+    libc-dev \
+    pkg-config \
     && apt-get autoremove -y \
     && apt-get clean \
     && apt-get autoclean \
     && rm -rf /var/lib/apt/lists/*
 
 RUN export TERM=xterm \
-    && echo "export TERM=xterm" >> /root/.bashrc \
     && echo 'pt_BR.UTF-8 UTF-8' >> /etc/locale.gen \
     && ln -s /etc/locale.alias /usr/share/locale/locale.alias \
 	&& locale-gen pt_BR pt_BR.UTF-8 \
@@ -48,9 +53,6 @@ RUN adduser --disabled-password --gecos '' developer \
     && usermod -aG www-data developer \
     && mkdir /home/developer/workdir
 
-WORKDIR /home/developer/workdir
-
 COPY shared/ntp.conf /etc/ntp.conf
 
-ENV LC_ALL pt_BR.UTF-8
-ENV LANGUAGE pt_BR:en
+WORKDIR /home/developer/workdir
