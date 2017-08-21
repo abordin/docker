@@ -14,9 +14,9 @@ docker build -t jacksonveroneze/nginx-balance .
 
 #
 
-mv ./shared/nginx-default-proxy ./shared/default
+#mv ./shared/nginx-default-proxy ./shared/default
 
-docker build -t jacksonveroneze/nginx-proxy .
+#docker build -t jacksonveroneze/nginx-proxy .
 
 #
 

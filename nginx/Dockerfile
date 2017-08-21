@@ -24,8 +24,7 @@ ADD shared/certificate.key /etc/nginx/ssl/
 
 RUN ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default \
     && ln -sf /dev/stdout /var/log/nginx/access.log \
-	&& ln -sf /dev/stderr /var/log/nginx/error.log \
-    && chmod 777 /home/developer/nginx-cmd.sh
+	&& ln -sf /dev/stderr /var/log/nginx/error.log
 
 EXPOSE 443
 

@@ -1,0 +1,41 @@
+version: "3"
+services:
+  ###########################################################################
+
+  web:
+    image: jacksonveroneze/nginx-php
+    ports:
+      - 4445:443
+    volumes:
+      - /home/$USER/www/lumen:/home/developer/workdir
+      - $DIR_SSH:/home/developer/.ssh
+      - $DIR_COMPOSER:/home/developer/.composer
+      - $DIR_TMP:/home/developer/.tmp
+    links:
+      - memcache
+      - cache_session
+      - redis
+  
+  ###########################################################################
+
+  memcache:
+    image: memcached
+    command: -m 512 -t 4
+
+  cache_session:
+    image: memcached
+    command: -I 5M -m 64 -t 4
+
+  redis:
+    image: redis
+
+###########################################################################
+
+  redisadmin:
+    image: faktiva/php-redis-admin
+    environment:
+      - PHPREDMIN_DATABASE_REDIS_0_HOST=redis
+    ports:
+      - 4937:80
+    links:
+      - redis

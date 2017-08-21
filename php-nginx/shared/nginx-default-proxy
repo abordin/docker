@@ -1,13 +1,12 @@
-upstream balance {
-	server web1:443 weight=4 max_fails=5 fail_timeout=5;
-	server web2:443 weight=4 max_fails=5 fail_timeout=5;
+upstream proxy-server {
+	server server:5000;
 }
 
 server {
 	include nginx-shared.conf;
 
 	location / {
-		proxy_pass $scheme://balance;
+		proxy_pass http://proxy-server;
 		proxy_redirect off;
 		proxy_set_header Host $host;
 		proxy_set_header X-Real-IP $remote_addr;
