@@ -9,15 +9,13 @@ script:
   - cd scripts
   - ./docker-build-debian.sh
   - ./docker-build-nginx.sh
-  - ./docker-build-php.sh
+  - ./docker-build-php-nginx.sh
   - ./docker-build-postgres.sh
 
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
     docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
     docker push jacksonveroneze/debian-stretch-slim;
-    docker push jacksonveroneze/jacksonveroneze/php7.0-fpm;
-    docker push jacksonveroneze/jacksonveroneze/nginx-proxy;
     docker push jacksonveroneze/jacksonveroneze/nginx-php;
     docker push jacksonveroneze/postgres9.4-ssl 
     fi

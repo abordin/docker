@@ -21,7 +21,6 @@ ADD shared/nginx.conf /etc/nginx/
 ADD shared/nginx-shared.conf /etc/nginx/
 ADD shared/certificate.crt /etc/nginx/ssl/
 ADD shared/certificate.key /etc/nginx/ssl/
-ADD shared/nginx-cmd.sh /home/developer/
 
 RUN ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default \
     && ln -sf /dev/stdout /var/log/nginx/access.log \
@@ -30,4 +29,4 @@ RUN ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default \
 
 EXPOSE 443
 
-CMD /home/developer/nginx-cmd.sh
+CMD ["nginx", "-g", "daemon off;"]
