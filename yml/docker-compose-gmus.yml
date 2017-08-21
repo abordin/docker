@@ -1,18 +1,18 @@
-version: "2"
+version: "3"
 services:
   ###########################################################################
 
   haproxy:
     image: jacksonveroneze/haproxy
     ports:
-    - 4443:443
+      - 4443:443
     links:
-    - nginx1
-    - nginx2
+      - web1
+      - web2
 
   ###########################################################################
 
-  nginx1:
+  web1:
     image: jacksonveroneze/nginx-php
     volumes:
       - /home/$USER/www/g-mus-dev:/home/developer/workdir
@@ -20,12 +20,12 @@ services:
       - $DIR_COMPOSER:/home/developer/.composer
       - $DIR_TMP:/home/developer/.tmp
     links:
-    - db
-    - memcache
-    - cache_session
-    - redis
+      - db
+      - memcache
+      - cache_session
+      - redis
 
-  nginx2:
+  web2:
     image: jacksonveroneze/nginx-php
     volumes:
       - /home/$USER/www/g-mus-dev:/home/developer/workdir
@@ -33,10 +33,10 @@ services:
       - $DIR_COMPOSER:/home/developer/.composer
       - $DIR_TMP:/home/developer/.tmp
     links:
-    - db
-    - memcache
-    - cache_session
-    - redis
+      - db
+      - memcache
+      - cache_session
+      - redis
 
   ###########################################################################
 
@@ -67,8 +67,8 @@ services:
   mordomo:
     image: openjdk:7-jre
     volumes: 
-        - /home/$USER/www/g-mus-dev:/home/developer/workdir:rw
-        - $DIR_TMP:/home/developer/.tmp:rw
+      - /home/$USER/www/g-mus-dev:/home/developer/workdir:rw
+      - $DIR_TMP:/home/developer/.tmp:rw
     working_dir: /home/developer/workdir/library/vendor/inovadora/mordomo
     command: java -jar Mordomo.jar
 
@@ -81,14 +81,14 @@ services:
     volumes:
       - $DIR_PGADMIN_DATA:/data/
     links:
-    - db
+      - db
 
 ###########################################################################
 
-  redis_admin:
+  redisadmin:
     image: faktiva/php-redis-admin
     environment:
-      - PHPREDMIN_DATABASE_REDIS_0_HOST=redis_app
+      - PHPREDMIN_DATABASE_REDIS_0_HOST=redis
     ports:
       - 4935:80
     links:
