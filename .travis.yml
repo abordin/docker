@@ -14,10 +14,7 @@ script:
 
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
-    docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-    docker push jacksonveroneze/debian-stretch-slim;
-    docker push jacksonveroneze/jacksonveroneze/nginx-php;
-    docker push jacksonveroneze/postgres9.4-ssl 
+
     fi
 
 notifications:

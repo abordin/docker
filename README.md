@@ -87,11 +87,6 @@ $ docker-gmas-crypt
 ```bash
 $ docker-clear
 ```
-##### Listar os containers e seu uso
-
-```bash
-$ docker-stats
-```
 
 ##### Remover imagens não utilizadas do cache local
 
