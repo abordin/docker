@@ -61,7 +61,7 @@ RUN sed -i "s/;date.timezone =/date.timezone = America\/Sao_Paulo/" /etc/php/7.0
     && sed -i "s/post_max_size = 8M/post_max_size = 5000M/" /etc/php/7.0/fpm/php.ini \
     && sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.0/fpm/php.ini \
     && sed -i "s/session.save_handler = files/session.save_handler = memcached/" /etc/php/7.0/fpm/php.ini \
-    && sed -i "s/;session.save_path = \"\/var\/lib\/php\/sessions\"/session.save_path = cache_session:11211/" /etc/php/7.0/fpm/php.ini \
+    && sed -i "s/;session.save_path = \"\/var\/lib\/php\/sessions\"/session.save_path = memcached_session:11211/" /etc/php/7.0/fpm/php.ini \
     && sed -i "s/;session.lazy_write = On/session.lazy_write = Off/" /etc/php/7.0/fpm/php.ini \
     && sed -i "s/;request_terminate_timeout = 0/request_terminate_timeout = 180000/" /etc/php/7.0/fpm/pool.d/www.conf \
     && echo "memcached.sess_lock_retries = 30 * 1000 / 150" >> /etc/php/7.0/fpm/php.ini \

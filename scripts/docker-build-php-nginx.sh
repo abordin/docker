@@ -10,4 +10,4 @@ mv ./shared/nginx-default-php ./shared/default
 
 docker build -t jacksonveroneze/nginx-php .
 
-rm ./shared/default
+rm -rf ./shared

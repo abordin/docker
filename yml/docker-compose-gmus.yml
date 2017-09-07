@@ -1,5 +1,6 @@
 version: "3"
 services:
+
   ###########################################################################
 
   balance:
@@ -21,8 +22,8 @@ services:
       - $DIR_TMP:/home/developer/.tmp
     links:
       - db
-      - memcache
-      - cache_session
+      - memcached
+      - memcached_session
       - redis
 
   web2:
@@ -34,8 +35,8 @@ services:
       - $DIR_TMP:/home/developer/.tmp
     links:
       - db
-      - memcache
-      - cache_session
+      - memcached
+      - memcached_session
       - redis
 
   ###########################################################################
@@ -51,11 +52,11 @@ services:
   
   ###########################################################################
 
-  memcache:
+  memcached:
     image: memcached
     command: -m 512 -t 4
 
-  cache_session:
+  memcached_session:
     image: memcached
     command: -I 5M -m 64 -t 4
 
@@ -83,9 +84,7 @@ services:
     links:
       - db
 
-###########################################################################
-
-  redisadmin:
+  redis_admin:
     image: faktiva/php-redis-admin
     environment:
       - PHPREDMIN_DATABASE_REDIS_0_HOST=redis

@@ -2,6 +2,7 @@ version: '2'
 services:
 
  ##########################################################
+ 
   rabbitmq:
     image: rabbitmq:3-management-alpine
     volumes:

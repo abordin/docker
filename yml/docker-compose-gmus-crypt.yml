@@ -1,64 +1,43 @@
-version: "2"
+version: "3"
 services:
+
   ###########################################################################
 
-  haproxy:
+  balance:
     image: jacksonveroneze/nginx-balance
     ports:
-    - 4443:443
+      - 4443:443
     links:
-    - nginx1
-    - nginx2
+      - web1
+      - web2
 
   ###########################################################################
 
-  nginx1:
+  web1:
     image: jacksonveroneze/nginx-php
-    volumes:
-      - /home/$USER/www/g-mus:/home/developer/workdir
-      - $DIR_TMP:/home/developer/.tmp
-      - $DIR_TMP:/var/log/nginx
-    links:
-    - fpm1
-    environment:
-      FPM_HOST_NAME: fpm1
-
-  nginx2:
-    image: jacksonveroneze/nginx-php
-    volumes:
-      - /home/$USER/www/g-mus:/home/developer/workdir
-      - $DIR_TMP:/home/developer/.tmp
-      - $DIR_TMP:/var/log/nginx
-    links:
-    - fpm2
-    environment:
-      FPM_HOST_NAME: fpm2
-
-  ###########################################################################
-
-  fpm1:
-    image: jacksonveroneze/php7.0-fpm
     volumes:
       - /home/$USER/www/g-mus:/home/developer/workdir
       - $DIR_SSH:/home/developer/.ssh
       - $DIR_COMPOSER:/home/developer/.composer
       - $DIR_TMP:/home/developer/.tmp
     links:
-    - db
-    - cache
-    - cache_session
+      - db
+      - memcached
+      - memcached_session
+      - redis
 
-  fpm2:
-    image: jacksonveroneze/php7.0-fpm
+  web2:
+    image: jacksonveroneze/nginx-php
     volumes:
       - /home/$USER/www/g-mus:/home/developer/workdir
       - $DIR_SSH:/home/developer/.ssh
       - $DIR_COMPOSER:/home/developer/.composer
       - $DIR_TMP:/home/developer/.tmp
     links:
-    - db
-    - cache
-    - cache_session
+      - db
+      - memcached
+      - memcached_session
+      - redis
 
   ###########################################################################
 
@@ -73,21 +52,24 @@ services:
   
   ###########################################################################
 
-  cache:
+  memcached:
     image: memcached
     command: -m 512 -t 4
 
-  cache_session:
+  memcached_session:
     image: memcached
-    command: -I 3M -m 64 -t 4
+    command: -I 5M -m 64 -t 4
+
+  redis:
+    image: redis
 
   ###########################################################################
 
   mordomo:
     image: openjdk:7-jre
     volumes: 
-        - /home/$USER/www/g-mus:/home/developer/workdir:rw
-        - $DIR_TMP:/home/developer/.tmp:rw
+      - /home/$USER/www/g-mus:/home/developer/workdir:rw
+      - $DIR_TMP:/home/developer/.tmp:rw
     working_dir: /home/developer/workdir/library/vendor/inovadora/mordomo
     command: java -jar Mordomo.jar
 
@@ -96,8 +78,17 @@ services:
   pgadmin:
     image: chorss/docker-pgadmin4
     ports:
-      - "5050:5050"
+      - 5050:5050
     volumes:
       - $DIR_PGADMIN_DATA:/data/
     links:
-    - db
+      - db
+
+  redis_admin:
+    image: faktiva/php-redis-admin
+    environment:
+      - PHPREDMIN_DATABASE_REDIS_0_HOST=redis
+    ports:
+      - 4935:80
+    links:
+      - redis

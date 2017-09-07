@@ -1,40 +1,28 @@
-version: "2"
+version: "3"
 services:
+
   ###########################################################################
 
-  web:
+  web1:
     image: jacksonveroneze/nginx-php
     ports:
-      - "4443:443"
-    volumes:
-      - /home/$USER/www/e-school:/home/developer/workdir
-      - $DIR_TMP:/home/developer/.tmp
-      - $DIR_TMP:/var/log/nginx
-    links:
-    - fpm
-    environment:
-      FPM_HOST_NAME: fpm
-
-  ###########################################################################
-
-  fpm:
-    image: jacksonveroneze/php7.0-fpm
+      - 4445:443
     volumes:
       - /home/$USER/www/e-school:/home/developer/workdir
       - $DIR_SSH:/home/developer/.ssh
       - $DIR_COMPOSER:/home/developer/.composer
       - $DIR_TMP:/home/developer/.tmp
     links:
-    - db
-    - cache
-    - cache_session
+      - db
+      - memcached
+      - memcached_session
 
   ###########################################################################
 
   db:
-    image: mysql:5.7
+    image: mysql
     ports:
-      - "3306:3306"
+      - 3306:3306
     volumes:
       - $DIR_DATA_STORAGE_E_SCHOOL:/var/lib/mysql
     restart: always
@@ -43,15 +31,13 @@ services:
 
   ###########################################################################
 
-  cache:
+  memcached:
     image: memcached
-    ports:
-      - "11211:11211"
+    command: -m 512 -t 4
 
-  cache_session:
+  memcached_session:
     image: memcached
-    ports:
-      - "11215:11211"
+    command: -I 5M -m 64 -t 4
 
   ###########################################################################
 
@@ -64,4 +50,4 @@ services:
       PMA_USER: root
       PMA_PASSWORD: $PASSWORD_STORAGE
     links:
-    - db
+      - db
