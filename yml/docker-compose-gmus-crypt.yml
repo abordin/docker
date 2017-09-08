@@ -72,7 +72,11 @@ services:
       - $DIR_TMP:/home/developer/.tmp:rw
     working_dir: /home/developer/workdir/library/vendor/inovadora/mordomo
     command: java -jar Mordomo.jar
-
+    links:
+      - db
+    depends_on:
+      - db
+      
   ###########################################################################
   
   pgadmin:
