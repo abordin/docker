@@ -2,6 +2,8 @@ version: "3"
 services:
 
   ###########################################################################
+  # BALANCE
+  ###########################################################################
 
   balance:
     image: jacksonveroneze/nginx-balance
@@ -11,6 +13,9 @@ services:
       - web1
       - web2
 
+
+  ###########################################################################
+  # WEBs
   ###########################################################################
 
   web1:
@@ -40,6 +45,8 @@ services:
       - redis
 
   ###########################################################################
+  # POSTGRES
+  ###########################################################################
 
   db:
     image: jacksonveroneze/postgres9.4-ssl
@@ -50,6 +57,8 @@ services:
     environment:
       POSTGRES_PASSWORD: $PASSWORD_STORAGE
   
+  ###########################################################################
+  # CACHES
   ###########################################################################
 
   memcached:
@@ -64,6 +73,8 @@ services:
     image: redis
 
   ###########################################################################
+  # MORDOMO
+  ###########################################################################
 
   mordomo:
     image: openjdk:7-jre
@@ -76,6 +87,9 @@ services:
       - db
     depends_on:
       - db
+
+  ###########################################################################
+  # ADMINs
   ###########################################################################
   
   pgadmin:
@@ -95,3 +109,25 @@ services:
       - 4935:80
     links:
       - redis
+
+  ###########################################################################
+  # ELASTICSEARCH
+  ###########################################################################
+
+  auth_elasticsearch:
+    image: jacksonveroneze/nginx-proxy-basic-auth
+    ports:
+      - 4445:443
+    environment:
+      - FORWARD_HOST=elasticsearch
+      - FORWARD_PORT=9200
+    links:
+      - elasticsearch
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.6.1
+    environment: 
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    volumes: 
+      - $DIR_DATA_STORAGE_ELASTICSEARCH_GMUS:/usr/share/elasticsearch/data
+      - /home/$USER/www/docker/shared/elk/product.elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml

@@ -1,6 +1,6 @@
 FROM jacksonveroneze/debian-stretch-slim
 
-MAINTAINER Jackson Veroneze <jackson@jacksonveroneze.com>
+LABEL maintainer="jackson@jacksonveroneze.com"
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -22,10 +22,15 @@ ADD shared/nginx-shared.conf /etc/nginx/
 ADD shared/certificate.crt /etc/nginx/ssl/
 ADD shared/certificate.key /etc/nginx/ssl/
 
+ADD shared/htpasswd-nginx /etc/nginx/
+
+ADD shared/launch.sh /
+
 RUN ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default \
     && ln -sf /dev/stdout /var/log/nginx/access.log \
-	&& ln -sf /dev/stderr /var/log/nginx/error.log
+	&& ln -sf /dev/stderr /var/log/nginx/error.log \
+    && chmod 775 /launch.sh
 
 EXPOSE 443
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["/launch.sh"]

@@ -1,6 +1,6 @@
 FROM postgres:9.4
 
-MAINTAINER Jackson Veroneze <jackson@jacksonveroneze.com>
+LABEL maintainer="jackson@jacksonveroneze.com"
 
 COPY ./shared/postgres-ssl.conf /etc/postgresql-common/ssl.conf
 

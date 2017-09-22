@@ -7,6 +7,8 @@ server {
 
 	location / {
 		proxy_pass http://proxy-server;
+		auth_basic "Admin";
+		auth_basic_user_file htpasswd-nginx;
 		proxy_redirect off;
 		proxy_set_header Host $host;
 		proxy_set_header X-Real-IP $remote_addr;
