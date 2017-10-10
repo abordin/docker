@@ -1,6 +1,6 @@
-FROM jacksonveroneze/debian-stretch-slim
+FROM andersonbordin/debian-stretch-slim
 
-LABEL maintainer="jackson@jacksonveroneze.com"
+LABEL maintainer="anderson@inovadora.com.br"
 
 ENV DEBIAN_FRONTEND noninteractive
 

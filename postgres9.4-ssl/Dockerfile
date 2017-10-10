@@ -1,6 +1,6 @@
 FROM postgres:9.4
 
-LABEL maintainer="jackson@jacksonveroneze.com"
+LABEL maintainer="anderson@inovadora.com.br"
 
 COPY ./shared/postgres-ssl.conf /etc/postgresql-common/ssl.conf
 
